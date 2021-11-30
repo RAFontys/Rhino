@@ -8,6 +8,8 @@ int posL = 0;
 
 const int echo = 3;
 const int trig = 5;
+const int LED = 2;
+const int lichtSensorEen = 8; //the tracking module attach to pin 8
 long duration;
 int distance;
 
@@ -17,27 +19,29 @@ void setup() {
   Serial.begin(9600);
   motorLinks.attach(10);  // attaches the servo on pin 9 to the servo object
   motorRechts.attach(11);
+  pinMode(LED, OUTPUT);
+  pinMode(lichtSensorEen, INPUT); // set trackingPin as INPUT
 }
 void Right(){
-    motorRechts.write(45);
-    motorLinks.write(0);
-    return;
-  }
-  void Left(){
-    motorRechts.write(0);
-    motorLinks.write(90);
-    return;
-  }
-  void Straight(){
-    motorRechts.write(180);
-    motorLinks.write(0);
-    return;
-  }
-  void Backwards(){
-    motorRechts.write(0);
-    motorLinks.write(180);
-    return;
-  }
+  motorRechts.write(45);
+  motorLinks.write(0);
+  return;
+}
+void Left(){
+  motorRechts.write(0);
+  motorLinks.write(90);
+  return;
+}
+void Straight(){
+  motorRechts.write(180);
+  motorLinks.write(0);
+  return;
+}
+void Backwards(){
+  motorRechts.write(0);
+  motorLinks.write(180);
+  return;
+}
 
 void loop() {
   digitalWrite(trig,LOW);
@@ -52,20 +56,32 @@ void loop() {
 
   Serial.print("Distance: ");
   Serial.println(distance);
-
-  if(distance <= 5)
+/*
+  if(distance <= 10)
   {
     Backwards();
-    delay(3000);
+    delay(1000);
     Right();
-    delay(2000);
+    delay(600);
   }
 
-  if(distance >= 5)
+  if(distance >= 10)
   {
     Straight();
   }
+*/
 
-
-  Serial.println("hallo Master ougwe");
+  boolean waarde = digitalRead(lichtSensorEen); // read the value of tcrt5000
+  if(waarde == HIGH) //if it is HiGH
+  { 
+    
+    Serial.println("hoog");
+    digitalWrite(LED, LOW);
+  }
+  if(waarde == LOW)
+  {
+    Serial.println("laag");
+    digitalWrite(LED, HIGH);
+  }
+ 
 }
