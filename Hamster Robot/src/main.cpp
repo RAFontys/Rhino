@@ -19,7 +19,7 @@ void setup() {
   motorRechts.attach(11);
 }
 void Right(){
-    motorRechts.write(90);
+    motorRechts.write(45);
     motorLinks.write(0);
     return;
   }
@@ -39,9 +39,6 @@ void Right(){
     return;
   }
 
-
-
-
 void loop() {
   digitalWrite(trig,LOW);
   delayMicroseconds(2);
@@ -59,7 +56,9 @@ void loop() {
   if(distance <= 5)
   {
     Backwards();
+    delay(3000);
     Right();
+    delay(2000);
   }
 
   if(distance >= 5)
