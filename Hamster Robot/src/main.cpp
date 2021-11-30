@@ -4,7 +4,7 @@ Servo motorLinks;  // create servo object to control a servo
 Servo motorRechts;
 int posR = 0;    // variable to store the servo position
 int posL = 0;
-int revertimer = delay(2000);
+//int revertimer = delay(2000);
 
 const int echo = 3;
 const int trig = 5;
