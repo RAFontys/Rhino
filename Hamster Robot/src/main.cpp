@@ -10,6 +10,7 @@ const int echo = 3;
 const int trig = 5;
 const int LED = 2;
 const int lichtSensorEen = 8; //the tracking module attach to pin 8
+const int lichtSensorVijf = 6;
 long duration;
 int distance;
 
@@ -23,13 +24,13 @@ void setup() {
   pinMode(lichtSensorEen, INPUT); // set trackingPin as INPUT
 }
 void Right(){
-  motorRechts.write(45);
-  motorLinks.write(0);
+  motorRechts.write(180);
+  motorLinks.write(180);
   return;
 }
 void Left(){
   motorRechts.write(0);
-  motorLinks.write(90);
+  motorLinks.write(0);
   return;
 }
 void Straight(){
@@ -71,17 +72,28 @@ void loop() {
   }
 */
 
-  boolean waarde = digitalRead(lichtSensorEen); // read the value of tcrt5000
-  if(waarde == HIGH) //if it is HiGH
+  boolean waardeEen = digitalRead(lichtSensorEen); // read the value of tcrt5000
+  boolean waardeVijf = digitalRead(lichtSensorVijf);
+  if(waardeEen == HIGH) //if it is HiGH
   { 
-    
-    Serial.println("hoog");
-    digitalWrite(LED, LOW);
+    Left();
+    delay(300);
   }
-  if(waarde == LOW)
+  if(waardeVijf == HIGH)
   {
-    Serial.println("laag");
-    digitalWrite(LED, HIGH);
+    Right();
+    delay(300);
   }
- 
+  if(waardeEen == LOW && waardeVijf == LOW)
+  {
+    Straight();
+  }
+
+  if(distance <= 20)
+  {
+    Backwards();
+    delay(1000);
+    Right();
+    delay(600);
+  }
 }
