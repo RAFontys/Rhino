@@ -6,6 +6,9 @@ int posR = 0;    // variable to store the servo position
 int posL = 0;
 const int echo = 3;
 const int trig = 5;
+const int LED = 2;
+const int lichtSensorEen = 8; //the tracking module attach to pin 8
+const int lichtSensorVijf = 6;
 long duration;
 int newdistance;
 int arraydistance;
@@ -18,6 +21,8 @@ void setup() {
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
   Serial.begin(9600);
+  pinMode(LED, OUTPUT);
+  pinMode(lichtSensorEen, INPUT); // set trackingPin as INPUT
   motorLinks.attach(2);  // attaches the servo on pin 9 to the servo object
   motorRechts.attach(13);
 }
@@ -108,6 +113,32 @@ void loop() {
   {
     Straight();
     delay(50);
+  }
+*/
+
+  boolean waardeEen = digitalRead(lichtSensorEen); // read the value of tcrt5000
+  boolean waardeVijf = digitalRead(lichtSensorVijf);
+  if(waardeEen == HIGH) //if it is HiGH
+  { 
+    Left();
+    delay(300);
+  }
+  if(waardeVijf == HIGH)
+  {
+    Right();
+    delay(300);
+  }
+  if(waardeEen == LOW && waardeVijf == LOW)
+  {
+    Straight();
+  }
+
+  if(distance <= 20)
+  {
+    Backwards();
+    delay(1000);
+    Right();
+    delay(600);
   }
   //als de afstand boven de 16 is zal de hamster gebruik maken van de vooruit methode 
   if(newdistance < 15)
