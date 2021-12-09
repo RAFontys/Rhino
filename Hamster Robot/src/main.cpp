@@ -1,28 +1,35 @@
 #include <Arduino.h>
 #include <Servo.h>
-Servo motorLinks;  // create servo object to control a servo
+Servo motorLinks; 
 Servo motorRechts;
-int posR = 0;    // variable to store the servo position
-int posL = 0;
-//int revertimer = delay(2000);
 
-const int echo = 3;
-const int trig = 5;
-const int LED = 2;
-const int lichtSensorEen = 8; //the tracking module attach to pin 8
-const int lichtSensorVijf = 6;
-long duration;
-int distance;
+//naam geving aan alle pins
+const int LEDgeel = 4;
+const int LEDblauw = 12;
+const int lichtSensorEen = A0;
+const int lichtSensorVijf = A1;
+/*
+const int RGBgroen = 13;
+const int RGBrood = 7;
+const int RGBblauw = 2;
+*/
 
 void setup() {
-  pinMode(trig, OUTPUT);
-  pinMode(echo, INPUT);
   Serial.begin(9600);
-  motorLinks.attach(10);  // attaches the servo on pin 9 to the servo object
-  motorRechts.attach(11);
-  pinMode(LED, OUTPUT);
-  pinMode(lichtSensorEen, INPUT); // set trackingPin as INPUT
+  motorLinks.attach(2); 
+  motorRechts.attach(13);
+  // geeft aan of de pins in- of output moeten zijn
+  pinMode(LEDgeel, OUTPUT);
+  pinMode(LEDblauw, OUTPUT);
+  pinMode(lichtSensorEen, INPUT);
+  pinMode(lichtSensorVijf, INPUT);
+/*
+  pinMode(RGBgroen, OUTPUT);
+  pinMode(RGBrood, OUTPUT);
+  pinMode(RGBblauw, OUTPUT);
+  */
 }
+// functies voor sturen
 void Right(){
   motorRechts.write(180);
   motorLinks.write(180);
@@ -45,55 +52,37 @@ void Backwards(){
 }
 
 void loop() {
-  digitalWrite(trig,LOW);
-  delayMicroseconds(2);
+  // boolean voor te op te slaan of de lichtsensoren als laatst wit of zwart zagen.  
+  int waardeEen = analogRead(lichtSensorEen);
+  int waardeVijf = analogRead(lichtSensorVijf);
+  Serial.print(waardeEen);
+  Serial.print("    ");
+  Serial.println(waardeVijf);
 
-  digitalWrite(trig,HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trig,LOW);
-
-  duration = pulseIn(echo,HIGH);
-  distance = duration*0.034/2;
-
-  Serial.print("Distance: ");
-  Serial.println(distance);
-/*
-  if(distance <= 10)
-  {
-    Backwards();
-    delay(1000);
-    Right();
-    delay(600);
-  }
-
-  if(distance >= 10)
-  {
-    Straight();
-  }
-*/
-
-  boolean waardeEen = digitalRead(lichtSensorEen); // read the value of tcrt5000
-  boolean waardeVijf = digitalRead(lichtSensorVijf);
-  if(waardeEen == HIGH) //if it is HiGH
-  { 
-    Left();
-    delay(300);
-  }
-  if(waardeVijf == HIGH)
-  {
-    Right();
-    delay(300);
-  }
+  //als bijde sensoren zwart zien gaat i vooruit
+  /*
   if(waardeEen == LOW && waardeVijf == LOW)
   {
     Straight();
   }
-
-  if(distance <= 20)
-  {
-    Backwards();
-    delay(1000);
-    Right();
-    delay(600);
+  // gaat naar links  als sensor een wit detecteert
+  if(waardeEen == HIGH)
+  { 
+    Left();
+    digitalWrite(LEDblauw, HIGH);
   }
+  // gaat naar rechts  als sensor twee wit detecteert
+  if(waardeVijf == HIGH)
+  {
+    Right();
+    digitalWrite(LEDgeel, HIGH);
+  }
+  digitalWrite(LEDgeel, LOW);
+  digitalWrite(LEDblauw, LOW);
+  */
+/*
+  digitalWrite(RGBgroen, HIGH);
+  digitalWrite(RGBrood, HIGH);
+  digitalWrite(RGBblauw, HIGH);
+  */
 }
