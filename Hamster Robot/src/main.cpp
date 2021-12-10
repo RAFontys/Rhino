@@ -107,15 +107,6 @@ void setup() {
   }
 
 void loop() {
-  Distance();
-  //haalt de afstand op
-  if(newdistance > 16)
-  {
-    Straight();
-    delay(50);
-  }
-*/
-
   boolean waardeEen = digitalRead(lichtSensorEen); // read the value of tcrt5000
   boolean waardeVijf = digitalRead(lichtSensorVijf);
   if(waardeEen == HIGH) //if it is HiGH
@@ -132,13 +123,13 @@ void loop() {
   {
     Straight();
   }
-
-  if(distance <= 20)
+  
+  Distance();
+  //haalt de afstand op
+  if(newdistance > 16)
   {
-    Backwards();
-    delay(1000);
-    Right();
-    delay(600);
+    Straight();
+    delay(50);
   }
   //als de afstand boven de 16 is zal de hamster gebruik maken van de vooruit methode 
   if(newdistance < 15)
