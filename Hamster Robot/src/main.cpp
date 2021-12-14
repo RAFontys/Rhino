@@ -35,15 +35,15 @@ void setup()
 }
 void Right()
 {
-  motorRechts.write(90);
-  motorLinks.write(0);
+  motorRechts.write(180);  //90
+  motorLinks.write(90);    //0
   return;
 }
 //laat de hamster naar rechts bewegen
 void Left()
 {
-  motorRechts.write(0);
-  motorLinks.write(90);
+  motorRechts.write(90); //180
+  motorLinks.write(0);   //90
   return;
 }
 //laat de hamster naar links bewegen
@@ -119,26 +119,44 @@ void Backwards()
   //de achteruit methode haal altijd de nieuwe waarde va de afstand op als deze nog niet over de 20 is zal die achteruit blijven rijden als zit de afstand waarde hierboven wordt er gebruik gemaakt van de calibreer functie
 }
 
-void loop() {
-  //als bijde sensoren zwart zien gaat i vooruit
-  /*
-  if(waardeEen == LOW && waardeVijf == LOW)
+void volgLijn()
+{
+  int waardeEen = analogRead(lichtSensorEen);
+  int waardeVijf = analogRead(lichtSensorVijf);
+  Serial.print(waardeEen);
+  Serial.print("    ");
+  Serial.println(waardeVijf);
+
+  //als bijde sensoren zwart zien gaat de hamster vooruit
+  
+  if(waardeEen < 900 && waardeVijf < 900)
   {
     Straight();
+    digitalWrite(LEDgeel, LOW);
+  digitalWrite(LEDblauw, LOW);
   }
   // gaat naar links  als sensor een wit detecteert
-  if(waardeEen == HIGH)
+  if(waardeEen > 900)
   { 
     Left();
     digitalWrite(LEDblauw, HIGH);
   }
   // gaat naar rechts  als sensor twee wit detecteert
-  if(waardeVijf == HIGH)
+  if(waardeVijf > 900)
   {
     Right();
     digitalWrite(LEDgeel, HIGH);
   }
-  
+}
+
+void loop() {
+  //motorLinks.write(0);
+  volgLijn();
+
+
+
+/*
+
   Distance();
   //haalt de afstand op
   if(newdistance > 16)
@@ -154,12 +172,6 @@ void loop() {
     Serial.println("reversing");
   }   
   //als de afstand van de hamster tot aan een object kleiner is als 15 zal die de achteruit methode gebruiken
-  digitalWrite(LEDgeel, LOW);
-  digitalWrite(LEDblauw, LOW);
-  */
-  /*
-  digitalWrite(RGBgroen, HIGH);
-  digitalWrite(RGBrood, HIGH);
-  digitalWrite(RGBblauw, HIGH);
+
   */
 }
