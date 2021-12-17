@@ -149,14 +149,8 @@ void volgLijn()
   }
 }
 
-void loop() {
-  //motorLinks.write(0);
-  volgLijn();
-
-
-
-/*
-
+void afstandsensorMode()
+{
   Distance();
   //haalt de afstand op
   if(newdistance > 16)
@@ -173,5 +167,8 @@ void loop() {
   }   
   //als de afstand van de hamster tot aan een object kleiner is als 15 zal die de achteruit methode gebruiken
 
-  */
+}
+void loop() {
+  //volgLijn();
+  afstandsensorMode();
 }
