@@ -18,8 +18,12 @@ boolean calibrating = false;
 
 const int LEDgeel = 4;
 const int LEDblauw = 12;
+const int ButtonRood = 7;
+const int Button = 8;
 const int lichtSensorEen = A0;
 const int lichtSensorVijf = A1;
+
+String modes;
 
 void setup() 
 {
@@ -133,7 +137,7 @@ void volgLijn()
   {
     Straight();
     digitalWrite(LEDgeel, LOW);
-  digitalWrite(LEDblauw, LOW);
+    digitalWrite(LEDblauw, LOW);
   }
   // gaat naar links  als sensor een wit detecteert
   if(waardeEen > 900)
@@ -169,6 +173,30 @@ void afstandsensorMode()
 
 }
 void loop() {
-  //volgLijn();
   afstandsensorMode();
+  /*
+  if(digitalRead(ButtonRood) == HIGH)
+  {
+    modes = "afstandsensor";
+  	digitalWrite(LEDgeel, HIGH);
+  }
+  else if(digitalRead(Button) == HIGH)
+  {
+    modes = "lijn";
+    digitalWrite(LEDblauw, HIGH);
+  }
+  else{
+    digitalWrite(LEDgeel, LOW);
+    digitalWrite(LEDblauw, LOW);
+  }
+
+  if(modes == "afstandsensor")
+  {
+    afstandsensorMode();
+  }
+  else if(modes == "lijn")
+  {
+    volgLijn();
+  }
+  */
 }
