@@ -36,6 +36,8 @@ void setup()
   pinMode(LEDblauw, OUTPUT);
   pinMode(lichtSensorEen, INPUT);
   pinMode(lichtSensorVijf, INPUT);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
 }
 void Right()
 {
@@ -69,7 +71,6 @@ void Distance()
   duration = pulseIn(echo,HIGH);
   newdistance = duration*0.034/2;
   return;
-  delay(50);
 }
 // neem de afstand waar door middel van een input en output sensor de sensoren werken door een soort echo locatie door middel van de newdistande formule wordt de afstand berekent
 void Calibrate()
@@ -123,6 +124,7 @@ void Backwards()
   //de achteruit methode haal altijd de nieuwe waarde va de afstand op als deze nog niet over de 20 is zal die achteruit blijven rijden als zit de afstand waarde hierboven wordt er gebruik gemaakt van de calibreer functie
 }
 
+
 void volgLijn()
 {
   int waardeEen = analogRead(lichtSensorEen);
@@ -170,8 +172,8 @@ void afstandsensorMode()
     Serial.println("reversing");
   }   
   //als de afstand van de hamster tot aan een object kleiner is als 15 zal die de achteruit methode gebruiken
-
 }
+
 void loop() {
   afstandsensorMode();
   /*
