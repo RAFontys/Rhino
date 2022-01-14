@@ -26,6 +26,8 @@ void setup()
   pinMode(LEDblauw, OUTPUT);
   pinMode(lichtSensorEen, INPUT);
   pinMode(lichtSensorVijf, INPUT);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
 }
 
 void volgLijn()
@@ -75,8 +77,8 @@ void afstandsensorMode()
     Serial.println("reversing");
   }   
   //als de afstand van de hamster tot aan een object kleiner is als 15 zal die de achteruit methode gebruiken
-
 }
+
 void loop() {
   afstandsensorMode();
   /*
