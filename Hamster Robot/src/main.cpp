@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <UltrasoneDriver.h>
-
-Servo motorLinks; 
-Servo motorRechts;
 int posR = 0;    // variable to store the servo position
 int posL = 0;
 const int LEDgeel = 4;
@@ -14,21 +11,6 @@ const int lichtSensorEen = A0;
 const int lichtSensorVijf = A1;
 
 String modes;
-
-void setup() 
-{
-  Serial.begin(9600);
-
-  motorLinks.attach(13); 
-  motorRechts.attach(2);
-  
-  pinMode(LEDgeel, OUTPUT);
-  pinMode(LEDblauw, OUTPUT);
-  pinMode(lichtSensorEen, INPUT);
-  pinMode(lichtSensorVijf, INPUT);
-  pinMode(trig, OUTPUT);
-  pinMode(echo, INPUT);
-}
 
 void volgLijn()
 {

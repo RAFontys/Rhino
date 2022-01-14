@@ -17,12 +17,17 @@ void setup()
 {
   Serial.begin(9600);
 
-  motorLinks.attach(2); 
-  motorRechts.attach(13);
+  motorLinks.attach(13); 
+  motorRechts.attach(2);
   
+  pinMode(LEDgeel, OUTPUT);
+  pinMode(LEDblauw, OUTPUT);
+  pinMode(lichtSensorEen, INPUT);
+  pinMode(lichtSensorVijf, INPUT);
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
 }
+
 void Right()
 {
   motorRechts.write(180);  //90
