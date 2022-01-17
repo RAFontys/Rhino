@@ -1,14 +1,7 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <UltrasoneDriver.h>
-int posR = 0;    // variable to store the servo position
-int posL = 0;
-const int LEDgeel = 4;
-const int LEDblauw = 12;
-const int ButtonRood = 7;
-const int Button = 8;
-const int lichtSensorEen = A0;
-const int lichtSensorVijf = A1;
+
 
 String modes;
 
@@ -62,8 +55,8 @@ void afstandsensorMode()
 }
 
 void loop() {
-  afstandsensorMode();
-  /*
+  //afstandsensorMode();
+  
   if(digitalRead(ButtonRood) == HIGH)
   {
     modes = "afstandsensor";
@@ -87,5 +80,4 @@ void loop() {
   {
     volgLijn();
   }
-  */
 }

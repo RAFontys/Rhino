@@ -1,6 +1,15 @@
 #include <Arduino.h>
 #include <Servo.h>
 
+int posR = 0;    // variable to store the servo position
+int posL = 0;
+const int LEDgeel = 4;
+const int LEDblauw = 12;
+const int ButtonRood = 7;
+const int Button = 8;
+const int lichtSensorEen = A0;
+const int lichtSensorVijf = A1;
+
 Servo motorLinks; 
 Servo motorRechts;
 const int echo = 3;
@@ -44,8 +53,8 @@ void Left()
 //laat de hamster naar links bewegen
 void Straight()
 {
-  motorRechts.write(0);
-  motorLinks.write(180);
+  motorRechts.write(180);
+  motorLinks.write(0);
   return;
 }
 // laat de hamster naar voren bewegen
@@ -65,41 +74,44 @@ void Distance()
 // neem de afstand waar door middel van een input en output sensor de sensoren werken door een soort echo locatie door middel van de newdistande formule wordt de afstand berekent
 void Calibrate()
 {
-  int calcount = 0;
-
-  while(calcount < 359)
-  {
-    motorLinks.write(360);
-    motorRechts.write(360);
-    Distance();
-    arraydistance = newdistance;
-    rotate_array[calcount] = arraydistance;
-    calcount++;
-
-    if(max_value < arraydistance)
+    int calcount = 0;
+    while(calcount < 359)
     {
-      max_value = arraydistance;
-      caldir = calcount;
+        motorLinks.write(360);
+        motorRechts.write(360);
+        Distance();
+        arraydistance = newdistance;
+        rotate_array[calcount] = arraydistance;
+        calcount++;
+
+        if(max_value < arraydistance)
+        {
+          max_value = arraydistance;
+          caldir = calcount;
+        }
     }
-  }
-  if(calcount == 359)
-  {
-    motorRechts.write(caldir);
-  }
-  // de calibreer methode maakt een array van 360 waarde's aan elke waarde wordt gevuld met een afstand als alle waarde zijn gevuld zal de hamster naar de verste waarde toe bewegen
+
+    if(calcount == 359)
+    {
+      Serial.println("test");
+      motorRechts.write(caldir);
+      //motorLinks.write(caldir);
+      calcount = 0;
+    }
+    // de calibreer methode maakt een array van 360 waarde's aan elke waarde wordt gevuld met een afstand als alle waarde zijn gevuld zal de hamster naar de verste waarde toe bewegen
 }
 void Backwards()
 {
   Distance();
   Serial.println(newdistance);    
-  motorRechts.write(180);
-  motorLinks.write(0);
+  motorRechts.write(0);
+  motorLinks.write(180);
 
   while(newdistance < 20)
   {
     Distance();
-    motorRechts.write(180);
-    motorLinks.write(0);
+    motorRechts.write(0);
+    motorLinks.write(180);
     Serial.println("waiting");
     Serial.println(newdistance);
     delay(100);
